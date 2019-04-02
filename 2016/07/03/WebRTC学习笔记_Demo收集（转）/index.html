@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="http://php8pu0yd.bkt.clouddn.com/logo.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="http://php8pu0yd.bkt.clouddn.com/logo.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="http://php8pu0yd.bkt.clouddn.com/logo.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="http://php8pu0yd.bkt.clouddn.com/logo.png?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="webRTC,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="duozhang.xin" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="WebRTC学习 1.1   WebRTC现状 本人最早接触WebRTC是在2011年底，那时Google已经在Android源码中加入了webrtc源码，放在/external/webrtc/，但是Android并没有用到它，更没有被浏览器使用。当时试图在Android 2.3（Gingerbread）高通平台的手机上用H.264 硬件codec替换掉WebRTC缺省使用的VP8软codec，">
+<meta name="keywords" content="webRTC">
+<meta property="og:type" content="article">
+<meta property="og:title" content="WebRTC学习笔记_Demo收集（转）">
+<meta property="og:url" content="https://next.duozhang.xin/2016/07/03/WebRTC学习笔记_Demo收集（转）/index.html">
+<meta property="og:site_name" content="duozhang.xin">
+<meta property="og:description" content="WebRTC学习 1.1   WebRTC现状 本人最早接触WebRTC是在2011年底，那时Google已经在Android源码中加入了webrtc源码，放在/external/webrtc/，但是Android并没有用到它，更没有被浏览器使用。当时试图在Android 2.3（Gingerbread）高通平台的手机上用H.264 硬件codec替换掉WebRTC缺省使用的VP8软codec，">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-11-16T02:45:24.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="WebRTC学习笔记_Demo收集（转）">
+<meta name="twitter:description" content="WebRTC学习 1.1   WebRTC现状 本人最早接触WebRTC是在2011年底，那时Google已经在Android源码中加入了webrtc源码，放在/external/webrtc/，但是Android并没有用到它，更没有被浏览器使用。当时试图在Android 2.3（Gingerbread）高通平台的手机上用H.264 硬件codec替换掉WebRTC缺省使用的VP8软codec，">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://next.duozhang.xin/2016/07/03/WebRTC学习笔记_Demo收集（转）/">
+
+
+
+
+
+  <title>WebRTC学习笔记_Demo收集（转） | duozhang.xin</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">duozhang.xin</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-主页">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            主页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-归档">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-分类">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://next.duozhang.xin/2016/07/03/WebRTC学习笔记_Demo收集（转）/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Stephen">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="http://php8pu0yd.bkt.clouddn.com/logo.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="duozhang.xin">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">WebRTC学习笔记_Demo收集（转）</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-07-03T13:33:36+08:00">
+                2016-07-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/前端/" itemprop="url" rel="index">
+                    <span itemprop="name">前端</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <ol>
+<li>WebRTC学习 1.1   WebRTC现状 本人最早接触WebRTC是在2011年底，那时Google已经在<a href="http://lib.csdn.net/base/15" target="_blank" rel="noopener">Android</a>源码中加入了webrtc源码，放在/external/webrtc/，但是Android并没有用到它，更没有被浏览器使用。当时试图在Android 2.3（Gingerbread）高通平台的手机上用H.264 硬件codec替换掉WebRTC缺省使用的VP8软codec，费了不少劲勉强换掉后效果很差只得放弃。 最近得知Google最新版的Chrome for Android已经支持WebRTC，应老板的要求搭一个手机浏览器上视频通信的demo，为此在网上搜集各种资料，发现经过一年多的发展，国内外研究和使用WebRTC的人明显多起来，可用的demo也很多。在此做一个笔记，留作日后参考。 目前基于WebRTC的开发其实有两个方向，一个是基于浏览器的WebRTC应用开发，编程语言主要是<a href="http://lib.csdn.net/base/18" target="_blank" rel="noopener">JavaScript</a>、HTML等，这也是WebRTC作为HTML5标准的组成部分原本的目的；另一个是C层面的移植和开发，作为一款非常强大的开源软件，很多领域的软件项目都可以利用到WebRTC的音视频通信和处理能力，这些场合的应用程序可能是C语言写的，也不一定与浏览器有关。本文是属于前一种方向。 1.2   WebRTC基本概念学习 WebRTC的官方资料可以从其官网<a href="http://www.webrtc.org/" target="_blank" rel="noopener">http://www.webrtc.org/</a>和W 3C网站<a href="http://www.w3.org/TR/webrtc/" target="_blank" rel="noopener">http://www.w3.org/TR/webrtc/</a>上看到。 学习WebRTC基础知识比较好的网站是《Getting Started with WebRTC》，网址是<a href="http://www.html5rocks.com/en/tutorials/webrtc/basics/" target="_blank" rel="noopener">http://www.html5rocks.com/en/tutorials/webrtc/basics/</a>，这个也是官网上推荐的。 对浏览器来说，WebRTC其实就是提供了3个API： MediaStream (即getUserMedia)，用于获取媒体数据，例如来自摄像头和麦克风的视频流和音频流； RTCPeerConnection，用于peer跟peer之间呼叫和建立连接以便传输音视频数据流； RTCDataChannel，用于peer跟peer之间传输音视频之外的一般数据。 需要注意的是这几个API的名称在不同浏览器及同一浏览器的不同版本之间略有差异，比如PeerConnection在FireFox上叫做mozRTCPeerConnection，而在当前版本的Chrome上叫做webkitRTCPeerConnection，将来WebRTC标准化完成后会把这些前缀去掉使用统一的名称。 目前网上找到的WebRTC demo都只用到了getUserMedia和RTCPeerConnection这两个API，另一个API即RTCDataChannel似乎目前还不太成熟。 WebRTC是实现peer to peer的实时通信（可以两个或多个peer之间），在能够通信前peer跟peer之间必须建立连接，这是RTCPeerConnection的任务，为此需要借助一个信令服务器（signaling server）来进行，信令包括3种类型的信息： Session control messages: 初始化和关闭通信，及报告错误； Network configuration: 双方的IP地址和端口号（局域网内部IP地址需转换为外部的IP地址）； Media capabilities: 双方的浏览器支持使用何种codecs以及多高的视频分辨率。 WebRTC并未规定使用何种信令机制和消息协议，象SIP、XMPP、XHR、WebSocket这些技术都可以用作WebRTC的信令通信。 除了信令服务器，peer跟peer建立连接还需要借助另一种服务器（称为STUN server）实现NAT/Firewall穿越，因为很多peer是处于私有局域网中，使用私有IP地址，必须转换为公有IP地址才能相互之间传输数据。这其中涉及到一些专业术语包括STUN、TURN、ICE等，具体的本人还有待学习。网上找到的WebRTC demo好象都用的是Google提供的STUN server。 peer跟peer之间一旦建立连接就可以直接传输音视频数据流，并不需要借助第三方服务器中转。 2.     WebRTC封装库 WebRTC的目的是为了简化基于浏览器的实时数据通信的开发工作量，但实际应用编程还是有点复杂，尤其调用RTCPeerConnection必须对如何建立连接、交换信令的流程和细节有较深入的理解。因此有高人为我们开发了WebRTC封装库，将WebRTC的调用细节封装起来，包装成更简单的API，使开发应用程序更简单。封装库的另一个目的是为了屏蔽不同浏览器之间的差异，例如上面说的API名称的差异。当然，这些库都是开源的，可以根据自己的需要重新修改。 目前网上找到的有两种WebRTC封装库，一个是webrtc.io，网址是<a href="https://github.com/webRTC/webRTC.io" target="_blank" rel="noopener">https://github.com/webRTC/webRTC.io</a>，上面有详细说明和使用方法，有很多demo使用它；另一个是SimpleWebRTC，网址是<a href="https://github.com/HenrikJoreteg/SimpleWebRTC" target="_blank" rel="noopener">https://github.com/HenrikJoreteg/SimpleWebRTC</a>，貌似比webrtc.io用起来更简单。 3.     WebRTC demo试用 网上可以找到一堆WebRTC demo，在code.google.com上也能找到不少WebRTC应用项目的源码。有些demo是直接调用WebRTC API开发的，但大多数是调用上述两种WebRTC封装库开发的。由于WebRTC API的名称在不同浏览器及同一浏览器的不同版本之间存在差异，所以不是所有demo都能运行在所有浏览器上。 为了找到一个可在公司局域网环境中跑在手机上的WebRTC demo，本人试用了不少demo，下面选几个有代表性的介绍，其中有两个经修改后已在本人公司的局域网环境中运行成功。 先说一下本人的测试环境：手机上的浏览器是Chrome for Android 26.0.1410.49，运行在Android 4.1.2上，这个Chrome版本本身是beta版，支持WebRTC但缺省是关闭WebRTC功能的，需要在chrome://flags中使能WebRTC并重启Chrome，或者在启动Chrome时增加命令行选项–enable-webrtc。本人在PC上运行WebRTC的浏览器是Chrome 26.0.1410.43，操作系统是Windows 7。 3.1  <a href="http://www.webrtc.org/demo" target="_blank" rel="noopener">http://www.webrtc.org/demo</a>（<a href="https://apprtc.appspot.com/）" target="_blank" rel="noopener">https://apprtc.appspot.com/）</a> 这是官方的demo，功能很全，可惜不知为何<a href="https://apprtc.appspot.com/" target="_blank" rel="noopener">https://apprtc.appspot.com/</a>这个网址已经连不上了，不过其源码还是可以下载到的，在<a href="https://code.google.com/p/webrtc-samples/" target="_blank" rel="noopener">https://code.google.com/p/webrtc-samples/</a>。此demo没有用任何封装库。 这个demo所使用的信令机制使用了XHR和Google App Engine Channel API ，具体我不懂。 在我的公司局域网环境里无法运行该demo。 3.2   爱立信实验室开发的WebRTC demo 据说是第一个基于浏览器的WebRTC视频通信demo，爱立信为此还开发了一个浏览器用于支持WebRTC，好象也是基于WebKit的，叫做Bowser browser（当时市场上可能还没有支持WebRTC的浏览器），该项目网址是<a href="https://labs.ericsson.com/apps/bowser" target="_blank" rel="noopener">https://labs.ericsson.com/apps/bowser</a>。这个Bowser browser好象只支持Ubuntu 11.04 and 11.10（见<a href="https://labs.ericsson.com/apis/web-real-time-communication/downloads" target="_blank" rel="noopener">https://labs.ericsson.com/apis/web-real-time-communication/downloads</a>）。 该demo的网址是<a href="http://webrtc.labs.ericsson.net:8082/" target="_blank" rel="noopener">http://webrtc.labs.ericsson.net:8082</a>。 在我的公司局域网环境里无法运行该demo。 3.3   人脸检测识别 利用WebRTC的getUserMedia从摄像头获取图像进行人脸识别的demo，例如这两个： <a href="http://neave.com/webcam/html5/face/" target="_blank" rel="noopener">http://neave.com/webcam/html5/face/</a> <a href="http://www.raymondcamden.com/demos/2012/mar/29/test1.html" target="_blank" rel="noopener">http://www.raymondcamden.com/demos/2012/mar/29/test1.html</a> 这两个demo在PC和手机上的Chrome上都可运行。 3.4   <a href="http://www.simpl.info" target="_blank" rel="noopener">http://www.simpl.info</a> 这个demo演示HTML, CSS and JavaScript的各种feature和使用方法，包括WebRTC的3个API：getUserMedia、RTCPeerConnection、RTCDataChannel的演示，但遗憾的是RTCPeerConnection的演示只是本地camera的画面传回给本地，并没有实现真正的设备之间音视频通信。 该项目的源码在<a href="https://github.com/samdutton/simpl" target="_blank" rel="noopener">https://github.com/samdutton/simpl</a>。 3.5   Framegrabber 这是一个基于WebRTC实现屏幕共享（screensharing）的Chrome扩展，源码在<a href="https://github.com/samdutton/rtcshare" target="_blank" rel="noopener">https://github.com/samdutton/rtcshare</a>，有关介绍可参考这篇文章：<a href="http://blog.sina.com.cn/s/blog_51396f890102es7k.html" target="_blank" rel="noopener">http://blog.sina.com.cn/s/blog_51396f890102es7k.html</a>。 本人没有试用过。 3.6   <a href="http://webrtc.dennis.is" target="_blank" rel="noopener">http://webrtc.dennis.is</a> 这个demo是基于库webrtc.io实现的，是webrtc.io官方的demo，使用WebSocket作为信令手段。 在我的公司局域网环境里无法运行该demo；在家里无线路由器环境下可成功运行，但只能单向传输视频。 3.7   <a href="http://v.kainy.cn" target="_blank" rel="noopener">http://v.kainy.cn</a> 国内牛人做的，相当于是汉化版的<a href="http://webrtc.dennis.is/" target="_blank" rel="noopener">http://webrtc.dennis.is</a>，自然也是基于webrtc.io实现的，但使用的webrtc.io版本较老，不支持新版本Chrome所使用的API名称webkitRTCPeerConnection，所以无法在新版本Chrome上运行。具体介绍在<a href="http://blog.kainy.cn/2013/01/webrtc%E5%AE%9E%E7%8E%B0%E7%9A%84%E8%A7%86%E9%A2%91%E8%81%8A%E5%A4%A9%E5%AE%A4%E5%BA%94%E7%94%A8/" target="_blank" rel="noopener">http://blog.kainy.cn/2013/01/webrtc实现的视频聊天室应用/</a>。 3.8   <a href="http://conversat.io" target="_blank" rel="noopener">http://conversat.io</a> 这个demo是基于库SimpleWebRTC实现的，是SimpleWebRTC官方的demo，使用WebSocket作为信令手段。 在我的公司局域网环境里无法运行该demo；在家里无线路由器环境下可成功运行，且可双向传视频，支持多个peer同时视频通信。 经修改后在本人公司局域网成功运行，试过两个手机和一个笔记本电脑同时视频通信OK。修改和运行步骤： 1.     从<a href="http://www.nodejs.org/download/下载nodejs最新版并安装，我是在Windows7" target="_blank" rel="noopener">http://www.nodejs.org/download/下载nodejs最新版并安装，我是在Windows7</a> 64位上安装的； 2.     在命令行下依次运行如下命令（安装运行signaling server所需的模块）： npm install express npm install yetify npm install getconfig npm install node-uuid npm install socket.io 3.     从<a href="https://github.com/andyet/signalmaster下载信令服务器源码，该信令服务器是SimpleWebRTC缺省使用的，解开该源码后运行node" target="_blank" rel="noopener">https://github.com/andyet/signalmaster下载信令服务器源码，该信令服务器是SimpleWebRTC缺省使用的，解开该源码后运行node</a> server.js，该服务器监听8888端口，通过WebSocket与浏览器通信。 4.     在同一台PC上运行apache server，将从<a href="http://conversat.xn--ioserver-v39lz9evvo6p4c56hf3a38rv11etnpl4sju8c/" target="_blank" rel="noopener">http://conversat.io网站扒下来的文件放到该server</a>上（可在Chrome浏览器中打开<a href="http://conversat.io/" target="_blank" rel="noopener">http://conversat.io</a>然后鼠标右键单击在菜单中选“另存为”、“网页，全部”即可），修改其中的 index.html 和 simplewebrtc.js，将其中 url 改为’<a href="http://10.100.156.83:8888&#39;（其中IP地址是我的PC在公司局域网中的IP地址）。" target="_blank" rel="noopener">http://10.100.156.83:8888&#39;（其中IP地址是我的PC在公司局域网中的IP地址）。</a> 5.     在同一局域网中的其他设备上打开Chrome浏览器，地址栏输入<a href="http://10.100.156.83/" target="_blank" rel="noopener">http://10.100.156.83</a>，输入相同的room名称（随便起）即可开始多方视频通信，也可修改上述index.html中的“var room”一行，设定为固定的room名称，就不需要每次在每个设备上手工输入room名称了。 3.9   国内牛人开发的视频聊天室应用 这个demo是国内牛人赵书剑开发的视频聊天室，基于webrtc.io实现。 该项目源码和文档下载地址是<a href="http://ishare.iask.sina.com.cn/f/35083616.html" target="_blank" rel="noopener">http://ishare.iask.sina.com.cn/f/35083616.html</a>，源码在<a href="https://github.com/zsj2145676" target="_blank" rel="noopener">https://github.com/zsj2145676</a>。 经修改后在本人公司局域网成功运行，试过两个手机和一个笔记本电脑同时视频通信OK。修改和运行步骤： 1.     从<a href="http://ishare.iask.sina.com.cn/f/35083616.html" target="_blank" rel="noopener">http://ishare.iask.sina.com.cn/f/35083616.html</a>下载webrtc.chatdemo.zip，解压缩，修改其中public\javascripts\client.js中的rtc.connect一行，将实际的服务器地址写进去，例如改为：rtc.connect(“ws://10.100.156.83:8001”, room); 2.     同上文3.8节步骤1、2安装nodejs 3.     运行node app.js，注意该demo本身已包含http server，不需要其他的比如apache server 4.     在同一局域网中的其他设备上打开Chrome浏览器，地址栏输入<a href="http://10.100.156.83:8000/" target="_blank" rel="noopener">http://10.100.156.83:8000</a>，输入相同的room名称（随便起）即可开始多方视频通信。 转自：<a href="http://blog.sina.com.cn/s/blog_69a04cf401016gz4.html" target="_blank" rel="noopener">http://blog.sina.com.cn/s/blog_69a04cf401016gz4.html</a></li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/webRTC/" rel="tag"># webRTC</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/06/21/认识Javascript的命名空间（namespace）/" rel="next" title="认识Javascript的命名空间（namespace）">
+                <i class="fa fa-chevron-left"></i> 认识Javascript的命名空间（namespace）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/07/21/jquery-post-e5-9c-a8firefox-e6-b5-8f-e8-a7-88-e5-99-a8-e4-b8-ad-e9-81-87-e5-88-b0-e7-9a-84-e9-97-ae-e9-a2-98/" rel="prev" title="jquery post 在firefox浏览器中遇到的问题">
+                jquery post 在firefox浏览器中遇到的问题 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="http://php8pu0yd.bkt.clouddn.com/logo.png" alt="Stephen">
+            
+              <p class="site-author-name" itemprop="name">Stephen</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">37</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">25</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/enci33" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://duozhang.xin" target="_blank" title="Site">
+                      
+                        <i class="fa fa-fw fa-home"></i>Site</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Stephen</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+  
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="http://php8pu0yd.bkt.clouddn.com/logo.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="http://php8pu0yd.bkt.clouddn.com/logo.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="http://php8pu0yd.bkt.clouddn.com/logo.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="http://php8pu0yd.bkt.clouddn.com/logo.png?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="duozhang.xin" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="之前用的获取kugou音乐top500接口是http://m.kugou.com/rank/info/?rankid=8888&amp;amp;page=1&amp;amp;json=true，但是最近用php的file_get_contents和curl请求这个接口均获取不到歌曲信息了，返回的字符串变成了这个： {“JS_CSS_DATE”:20130320,”kg_domain”:”http:\/\/m.ku">
+<meta property="og:type" content="article">
+<meta property="og:title" content="利用fiddler分析酷狗音乐移动端接口">
+<meta property="og:url" content="https://next.duozhang.xin/2018/11/06/利用fiddler分析酷狗音乐移动端接口/index.html">
+<meta property="og:site_name" content="duozhang.xin">
+<meta property="og:description" content="之前用的获取kugou音乐top500接口是http://m.kugou.com/rank/info/?rankid=8888&amp;amp;page=1&amp;amp;json=true，但是最近用php的file_get_contents和curl请求这个接口均获取不到歌曲信息了，返回的字符串变成了这个： {“JS_CSS_DATE”:20130320,”kg_domain”:”http:\/\/m.ku">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://blog.duozhang.xin/wp-content/uploads/2018/11/RUTHIW7O9W8ZCOU@68Y.png">
+<meta property="og:image" content="http://blog.duozhang.xin/wp-content/uploads/2018/11/7VART171WU63C@FH4WI-300x204.png">
+<meta property="og:image" content="http://blog.duozhang.xin/wp-content/uploads/2018/11/467MD8JDT1UA47GRRP.png">
+<meta property="og:image" content="http://blog.duozhang.xin/wp-content/uploads/2018/11/4SWHYJ5W7Q_1J5-300x98.png">
+<meta property="og:image" content="http://blog.duozhang.xin/wp-content/uploads/2018/11/8XHK0D41Y_B501HQ_H-177x300.png">
+<meta property="og:image" content="http://blog.duozhang.xin/wp-content/uploads/2018/11/ULM2W7U0L5YXAJ9SJR8-300x270.png">
+<meta property="og:updated_time" content="2018-11-16T02:45:24.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="利用fiddler分析酷狗音乐移动端接口">
+<meta name="twitter:description" content="之前用的获取kugou音乐top500接口是http://m.kugou.com/rank/info/?rankid=8888&amp;amp;page=1&amp;amp;json=true，但是最近用php的file_get_contents和curl请求这个接口均获取不到歌曲信息了，返回的字符串变成了这个： {“JS_CSS_DATE”:20130320,”kg_domain”:”http:\/\/m.ku">
+<meta name="twitter:image" content="http://blog.duozhang.xin/wp-content/uploads/2018/11/RUTHIW7O9W8ZCOU@68Y.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://next.duozhang.xin/2018/11/06/利用fiddler分析酷狗音乐移动端接口/">
+
+
+
+
+
+  <title>利用fiddler分析酷狗音乐移动端接口 | duozhang.xin</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">duozhang.xin</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-主页">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            主页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-归档">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-分类">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://next.duozhang.xin/2018/11/06/利用fiddler分析酷狗音乐移动端接口/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Stephen">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="http://php8pu0yd.bkt.clouddn.com/logo.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="duozhang.xin">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">利用fiddler分析酷狗音乐移动端接口</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-06T23:53:19+08:00">
+                2018-11-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/前端/" itemprop="url" rel="index">
+                    <span itemprop="name">前端</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>之前用的获取kugou音乐top500接口是<a href="http://m.kugou.com/rank/info/?rankid=8888&amp;page=1&amp;json=true，" target="_blank" rel="noopener">http://m.kugou.com/rank/info/?rankid=8888&amp;page=1&amp;json=true，</a>但是最近用php的file_get_contents和curl请求这个接口均获取不到歌曲信息了，返回的字符串变成了这个： {“JS_CSS_DATE”:20130320,”kg_domain”:”http:\/\/m.kugou.com”,”src”:”http:\/\/downmobile.kugou.com\/promote\/package\/download\/channel=6”,”fr”:-2,”ver”:”v3”,”url”:”http%3A%2F%2Fm.kugou.com%2F%3Ffr%3D-2”,”code”:”C40B0241564447661C942281A23121AEF34BA502ACE293E3A08ECC8ECFF1CE45436F3AF911E8ED02”,”__Tpl”:”outsidetpl.html”} </p>
+<p>看到后面有个outsidetpl.html估计是kugou加了限制，我尝试在curl里面加了header但还是不行，然后我用node的request模块试了一下，发现竟然可以获取歌曲信息，而且请求的时候也没有加header，这就有点想不通了。 既然node可以获取，突然想把这些接口封装成npm模块，说干就干，本篇内容先来把移动端的接口分析一波。</p>
+<h2 id="设置fiddler"><a href="#设置fiddler" class="headerlink" title="设置fiddler"></a>设置fiddler</h2><p>fiddler<a href="https://www.telerik.com/download/fiddler" target="_blank" rel="noopener">下载地址</a></p>
+<p><img src="http://blog.duozhang.xin/wp-content/uploads/2018/11/RUTHIW7O9W8ZCOU@68Y.png" alt></p>
+<p>打开fiddler，点击Tools-&gt;Options-Https，勾上这两个选项</p>
+<p>然后切换到Connections，同样的操作，端口默认8888<img src="http://blog.duozhang.xin/wp-content/uploads/2018/11/7VART171WU63C@FH4WI-300x204.png" alt></p>
+<p>鼠标移到右上角的online图标，fiddler会弹出一个框，最下面一行是你的ip地址，记住这个地址<img src="http://blog.duozhang.xin/wp-content/uploads/2018/11/467MD8JDT1UA47GRRP.png" alt></p>
+<p>至此，fiddler设置完成，接下来设置手机</p>
+<h2 id="设置手机"><a href="#设置手机" class="headerlink" title="设置手机"></a>设置手机</h2><p>手机先和电脑连接在同一wifi下，然后点击wifi详情，将代理切换为手动，输入刚才的ip和端口。</p>
+<p><img src="http://blog.duozhang.xin/wp-content/uploads/2018/11/4SWHYJ5W7Q_1J5-300x98.png" alt><img src="http://blog.duozhang.xin/wp-content/uploads/2018/11/8XHK0D41Y_B501HQ_H-177x300.png" alt></p>
+<p>然后打开手机浏览器，访问ip:端口，打开页面后，点击下方的链接安装证书，有些手机可能要单独的操作安装证书，这个请百度谷歌</p>
+<p><img src="http://blog.duozhang.xin/wp-content/uploads/2018/11/ULM2W7U0L5YXAJ9SJR8-300x270.png" alt></p>
+<p>然后就可以愉快的抓包了</p>
+<h2 id="接口分析"><a href="#接口分析" class="headerlink" title="接口分析"></a>接口分析</h2><p> <strong>酷狗飙升榜</strong>： </p>
+<p> [<a href="http://mobilecdngz.kugou.com/api/v3/rank/song?version=9068&amp;ranktype=2&amp;plat=0&amp;pagesize=100&amp;area\_code=1&amp;page=1&amp;volid=34535&amp;rankid=6666&amp;with\_res_tag=1" target="_blank" rel="noopener">http://mobilecdngz.kugou.com/api/v3/rank/song?version=9068&amp;ranktype=2&amp;plat=0&amp;pagesize=100&amp;area\_code=1&amp;page=1&amp;volid=34535&amp;rankid=6666&amp;with\_res_tag=1</a> ](<a href="http://mobilecdngz.kugou.com/api/v3/rank/song?version=9068&amp;ranktype=2&amp;plat=0&amp;pagesize=100&amp;area_code=1&amp;page=1&amp;volid=34535&amp;rankid=6666&amp;with_res_tag=1" target="_blank" rel="noopener">http://mobilecdngz.kugou.com/api/v3/rank/song?version=9068&amp;ranktype=2&amp;plat=0&amp;pagesize=100&amp;area_code=1&amp;page=1&amp;volid=34535&amp;rankid=6666&amp;with_res_tag=1</a></p>
+<p>)</p>
+<p>[](<a href="http://mobilecdngz.kugou.com/api/v3/rank/song?version=9068&amp;ranktype=2&amp;plat=0&amp;pagesize=100&amp;area_code=1&amp;page=1&amp;volid=34535&amp;rankid=6666&amp;with_res_tag=1" target="_blank" rel="noopener">http://mobilecdngz.kugou.com/api/v3/rank/song?version=9068&amp;ranktype=2&amp;plat=0&amp;pagesize=100&amp;area_code=1&amp;page=1&amp;volid=34535&amp;rankid=6666&amp;with_res_tag=1</a></p>
+<p>)其中参数area_code、with_res_tag可不要，volid参数表示期数，省略获取的是最新的一期，所以必须省略，page和pagesize自行设置，其余参数最好加上，不然返回的歌曲列表会跟实际的不一样</p>
+<p><strong>酷狗top500：</strong></p>
+<p><a href="http://mobilecdngz.kugou.com/api/v3/rank/song?version=9068&amp;ranktype=2&amp;plat=0&amp;pagesize=100&amp;area_code=1&amp;page=1&amp;volid=34533&amp;rankid=8888&amp;with_res_tag=1" target="_blank" rel="noopener">http://mobilecdngz.kugou.com/api/v3/rank/song?version=9068&amp;ranktype=2&amp;plat=0&amp;pagesize=100&amp;area_code=1&amp;page=1&amp;volid=34533&amp;rankid=8888&amp;with_res_tag=1 </a></p>
+<p>参数同上</p>
+<p><strong>热门搜索：</strong></p>
+<p><a href="http://mobilecdngz.kugou.com/api/v3/search/hot?count=20&amp;plat=0&amp;with_res_tag=1" target="_blank" rel="noopener">http://mobilecdngz.kugou.com/api/v3/search/hot?count=20&amp;plat=0&amp;with_res_tag=1</a></p>
+<p><strong>歌曲搜索：</strong></p>
+<p><a href="http://mobilecdngz.kugou.com/api/v3/search/song?showtype=14&amp;highlight=em&amp;pagesize=30&amp;tag_aggr=1&amp;tagtype=%E5%85%A8%E9%83%A8&amp;plat=0&amp;sver=5&amp;keyword=%E8%AE%B8%E5%B5%A9&amp;correct=1&amp;api_ver=1&amp;version=9068&amp;page=1&amp;area_code=1&amp;tag=1&amp;with_res_tag=1" target="_blank" rel="noopener">http://mobilecdngz.kugou.com/api/v3/search/song?showtype=14&amp;highlight=em&amp;pagesize=30&amp;tag_aggr=1&amp;tagtype=%E5%85%A8%E9%83%A8&amp;plat=0&amp;sver=5&amp;keyword=%E8%AE%B8%E5%B5%A9&amp;correct=1&amp;api_ver=1&amp;version=9068&amp;page=1&amp;area_code=1&amp;tag=1&amp;with_res_tag=1</a></p>
+<p><strong>歌曲详情：</strong></p>
+<p><a href="http://m.kugou.com/app/i/getSongInfo.php?cmd=playInfo&amp;hash=CB7EE97F4CC11C4EA7A1FA4B516A5D97（app的歌曲详情接口信息太少而且还有限制，所以这个最好用web端）" target="_blank" rel="noopener">http://m.kugou.com/app/i/getSongInfo.php?cmd=playInfo&amp;hash=CB7EE97F4CC11C4EA7A1FA4B516A5D97</a></p>
+<p><a href="http://m.kugou.com/app/i/getSongInfo.php?cmd=playInfo&amp;hash=CB7EE97F4CC11C4EA7A1FA4B516A5D97（app的歌曲详情接口信息太少而且还有限制，所以这个最好用web端）" target="_blank" rel="noopener">（app的歌曲详情接口信息太少而且还有限制，所以这个最好用web端）</a></p>
+<p><strong>酷狗专辑畅销榜：</strong></p>
+<p>今日排行：</p>
+<p><a href="http://zhuanjistatic.kugou.com/v3/albumRankingList/oneDay?appid=1005&amp;version=9068&amp;channel=130" target="_blank" rel="noopener">http://zhuanjistatic.kugou.com/v3/albumRankingList/oneDay?appid=1005&amp;version=9068&amp;channel=130 </a></p>
+<p>本周排行：</p>
+<p><a href="http://zhuanjistatic.kugou.com/v3/albumRankingList/sevenDays?appid=1005&amp;version=9068&amp;channel=130" target="_blank" rel="noopener">http://zhuanjistatic.kugou.com/v3/albumRankingList/sevenDays?appid=1005&amp;version=9068&amp;channel=130 </a></p>
+<p>累计排行：</p>
+<p><a href="http://zhuanjistatic.kugou.com/v3/albumRankingList/all?appid=1005&amp;version=9068&amp;channel=130" target="_blank" rel="noopener">http://zhuanjistatic.kugou.com/v3/albumRankingList/all?appid=1005&amp;version=9068&amp;channel=130</a></p>
+<p><strong>由你音乐榜：</strong></p>
+<p>本周实时榜：</p>
+<p><a href="https://yobang.tencentmusic.com/unichartsapi/v1/songs/charts/dynamic?limit=100&amp;offset=0&amp;platform=kugou&amp;format=jsonp" target="_blank" rel="noopener">https://yobang.tencentmusic.com/unichartsapi/v1/songs/charts/dynamic?limit=100&amp;offset=0&amp;platform=kugou&amp;format=jsonp </a></p>
+<p>往期榜单：</p>
+<p><a href="https://yobang.tencentmusic.com/unichartsapi/v1/songs/charts/history/201807?limit=100&amp;offset=0&amp;platform=kugou" target="_blank" rel="noopener">https://yobang.tencentmusic.com/unichartsapi/v1/songs/charts/history/201807?limit=100&amp;offset=0&amp;platform=kugou</a></p>
+<p><strong>网络红歌榜：</strong></p>
+<p><a href="http://mobilecdngz.kugou.com/api/v3/rank/song?version=9068&amp;ranktype=1&amp;plat=0&amp;pagesize=100&amp;area_code=1&amp;page=1&amp;volid=34527&amp;rankid=23784&amp;with_res_tag=1" target="_blank" rel="noopener">http://mobilecdngz.kugou.com/api/v3/rank/song?version=9068&amp;ranktype=1&amp;plat=0&amp;pagesize=100&amp;area_code=1&amp;page=1&amp;volid=34527&amp;rankid=23784&amp;with_res_tag=1</a></p>
+<p><strong>DJ热歌榜：</strong></p>
+<p><a href="http://mobilecdngz.kugou.com/api/v3/rank/song?version=9068&amp;ranktype=1&amp;plat=0&amp;pagesize=100&amp;area_code=1&amp;page=1&amp;volid=34534&amp;rankid=24971&amp;with_res_tag=1" target="_blank" rel="noopener">http://mobilecdngz.kugou.com/api/v3/rank/song?version=9068&amp;ranktype=1&amp;plat=0&amp;pagesize=100&amp;area_code=1&amp;page=1&amp;volid=34534&amp;rankid=24971&amp;with_res_tag=1</a></p>
+<p><strong>酷狗单曲畅销榜：</strong></p>
+<p><a href="http://mobilecdngz.kugou.com/api/v5/rank/buycount?area_code=1&amp;pagesize=100&amp;page=1&amp;appid=1005&amp;type=day&amp;with_res_tag=1" target="_blank" rel="noopener">http://mobilecdngz.kugou.com/api/v5/rank/buycount?area_code=1&amp;pagesize=100&amp;page=1&amp;appid=1005&amp;type=day&amp;with_res_tag=1</a></p>
+<p><strong>华语新歌榜：</strong></p>
+<p><a href="http://mobilecdngz.kugou.com/api/v3/rank/song?version=9068&amp;ranktype=1&amp;plat=0&amp;pagesize=100&amp;area_code=1&amp;page=1&amp;volid=34536&amp;rankid=31308&amp;with_res_tag=1" target="_blank" rel="noopener">http://mobilecdngz.kugou.com/api/v3/rank/song?version=9068&amp;ranktype=1&amp;plat=0&amp;pagesize=100&amp;area_code=1&amp;page=1&amp;volid=34536&amp;rankid=31308&amp;with_res_tag=1</a></p>
+<p><strong>欧美新歌榜：</strong></p>
+<p>期数：</p>
+<p>[<a href="http://mobilecdngz.kugou.com/api/v3/rank/vol?ranktype=1&amp;plat=0&amp;rankid=31310&amp;with\_res\_tag=1" target="_blank" rel="noopener">http://mobilecdngz.kugou.com/api/v3/rank/vol?ranktype=1&amp;plat=0&amp;rankid=31310&amp;with\_res\_tag=1</a> ](<a href="http://mobilecdngz.kugou.com/api/v3/rank/vol?ranktype=1&amp;plat=0&amp;rankid=31310&amp;with_res_tag=1" target="_blank" rel="noopener">http://mobilecdngz.kugou.com/api/v3/rank/vol?ranktype=1&amp;plat=0&amp;rankid=31310&amp;with_res_tag=1</a></p>
+<p>)</p>
+<p>[](<a href="http://mobilecdngz.kugou.com/api/v3/rank/vol?ranktype=1&amp;plat=0&amp;rankid=31310&amp;with_res_tag=1" target="_blank" rel="noopener">http://mobilecdngz.kugou.com/api/v3/rank/vol?ranktype=1&amp;plat=0&amp;rankid=31310&amp;with_res_tag=1</a></p>
+<p>)<a href="http://mobilecdngz.kugou.com/api/v3/rank/song?version=9068&amp;ranktype=1&amp;plat=0&amp;pagesize=100&amp;area_code=1&amp;page=1&amp;volid=34538&amp;rankid=31310&amp;with_res_tag=1" target="_blank" rel="noopener">http://mobilecdngz.kugou.com/api/v3/rank/song?version=9068&amp;ranktype=1&amp;plat=0&amp;pagesize=100&amp;area_code=1&amp;page=1&amp;volid=34538&amp;rankid=31310&amp;with_res_tag=1</a></p>
+<p><strong>韩国新歌榜：</strong></p>
+<p>期数：</p>
+<p><a href="http://mobilecdngz.kugou.com/api/v3/rank/vol?ranktype=1&amp;plat=0&amp;rankid=31311&amp;with_res_tag=1" target="_blank" rel="noopener">http://mobilecdngz.kugou.com/api/v3/rank/vol?ranktype=1&amp;plat=0&amp;rankid=31311&amp;with_res_tag=1 </a></p>
+<p><a href="http://mobilecdngz.kugou.com/api/v3/rank/song?version=9068&amp;ranktype=1&amp;plat=0&amp;pagesize=100&amp;area_code=1&amp;page=1&amp;volid=34539&amp;rankid=31311&amp;with_res_tag=1" target="_blank" rel="noopener">http://mobilecdngz.kugou.com/api/v3/rank/song?version=9068&amp;ranktype=1&amp;plat=0&amp;pagesize=100&amp;area_code=1&amp;page=1&amp;volid=34539&amp;rankid=31311&amp;with_res_tag=1</a></p>
+<p><strong>日本新歌榜：</strong></p>
+<p>期数：[<a href="http://mobilecdngz.kugou.com/api/v3/rank/vol?ranktype=1&amp;plat=0&amp;rankid=31312&amp;with\_res\_tag=1" target="_blank" rel="noopener">http://mobilecdngz.kugou.com/api/v3/rank/vol?ranktype=1&amp;plat=0&amp;rankid=31312&amp;with\_res\_tag=1</a> ](<a href="http://mobilecdngz.kugou.com/api/v3/rank/vol?ranktype=1&amp;plat=0&amp;rankid=31312&amp;with_res_tag=1" target="_blank" rel="noopener">http://mobilecdngz.kugou.com/api/v3/rank/vol?ranktype=1&amp;plat=0&amp;rankid=31312&amp;with_res_tag=1</a></p>
+<p>)</p>
+<p>[](<a href="http://mobilecdngz.kugou.com/api/v3/rank/vol?ranktype=1&amp;plat=0&amp;rankid=31312&amp;with_res_tag=1" target="_blank" rel="noopener">http://mobilecdngz.kugou.com/api/v3/rank/vol?ranktype=1&amp;plat=0&amp;rankid=31312&amp;with_res_tag=1</a></p>
+<p>)<a href="http://mobilecdngz.kugou.com/api/v3/rank/song?version=9068&amp;ranktype=1&amp;plat=0&amp;pagesize=100&amp;area_code=1&amp;page=1&amp;volid=34537&amp;rankid=31312&amp;with_res_tag=1" target="_blank" rel="noopener">http://mobilecdngz.kugou.com/api/v3/rank/song?version=9068&amp;ranktype=1&amp;plat=0&amp;pagesize=100&amp;area_code=1&amp;page=1&amp;volid=34537&amp;rankid=31312&amp;with_res_tag=1</a></p>
+<p><strong>粤语新歌榜：</strong></p>
+<p><a href="http://mobilecdngz.kugou.com/api/v3/rank/vol?ranktype=1&amp;plat=0&amp;rankid=31313&amp;with_res_tag=1" target="_blank" rel="noopener">http://mobilecdngz.kugou.com/api/v3/rank/vol?ranktype=1&amp;plat=0&amp;rankid=31313&amp;with_res_tag=1 </a></p>
+<p><a href="http://mobilecdngz.kugou.com/api/v3/rank/song?version=9068&amp;ranktype=1&amp;plat=0&amp;pagesize=100&amp;area_code=1&amp;page=1&amp;volid=34540&amp;rankid=31313&amp;with_res_tag=1" target="_blank" rel="noopener">http://mobilecdngz.kugou.com/api/v3/rank/song?version=9068&amp;ranktype=1&amp;plat=0&amp;pagesize=100&amp;area_code=1&amp;page=1&amp;volid=34540&amp;rankid=31313&amp;with_res_tag=1</a></p>
+<p><strong>酷狗分享榜：</strong></p>
+<p>[<a href="http://mobilecdngz.kugou.com/api/v3/rank/vol?ranktype=1&amp;plat=0&amp;rankid=21101&amp;with\_res\_tag=1" target="_blank" rel="noopener">http://mobilecdngz.kugou.com/api/v3/rank/vol?ranktype=1&amp;plat=0&amp;rankid=21101&amp;with\_res\_tag=1</a> ](<a href="http://mobilecdngz.kugou.com/api/v3/rank/vol?ranktype=1&amp;plat=0&amp;rankid=21101&amp;with_res_tag=1" target="_blank" rel="noopener">http://mobilecdngz.kugou.com/api/v3/rank/vol?ranktype=1&amp;plat=0&amp;rankid=21101&amp;with_res_tag=1</a></p>
+<p>)</p>
+<p>[](<a href="http://mobilecdngz.kugou.com/api/v3/rank/vol?ranktype=1&amp;plat=0&amp;rankid=21101&amp;with_res_tag=1" target="_blank" rel="noopener">http://mobilecdngz.kugou.com/api/v3/rank/vol?ranktype=1&amp;plat=0&amp;rankid=21101&amp;with_res_tag=1</a></p>
+<p>)<a href="http://mobilecdngz.kugou.com/api/v3/rank/song?version=9068&amp;ranktype=1&amp;plat=0&amp;pagesize=100&amp;area_code=1&amp;page=1&amp;volid=34530&amp;rankid=21101&amp;with_res_tag=1" target="_blank" rel="noopener">http://mobilecdngz.kugou.com/api/v3/rank/song?version=9068&amp;ranktype=1&amp;plat=0&amp;pagesize=100&amp;area_code=1&amp;page=1&amp;volid=34530&amp;rankid=21101&amp;with_res_tag=1</a></p>
+<p><strong>腾讯音乐人原创榜：</strong></p>
+<p>[<a href="http://mobilecdngz.kugou.com/api/v3/rank/vol?ranktype=1&amp;plat=0&amp;rankid=30972&amp;with\_res\_tag=1" target="_blank" rel="noopener">http://mobilecdngz.kugou.com/api/v3/rank/vol?ranktype=1&amp;plat=0&amp;rankid=30972&amp;with\_res\_tag=1</a> ](<a href="http://mobilecdngz.kugou.com/api/v3/rank/vol?ranktype=1&amp;plat=0&amp;rankid=30972&amp;with_res_tag=1" target="_blank" rel="noopener">http://mobilecdngz.kugou.com/api/v3/rank/vol?ranktype=1&amp;plat=0&amp;rankid=30972&amp;with_res_tag=1</a></p>
+<p>)</p>
+<p>[](<a href="http://mobilecdngz.kugou.com/api/v3/rank/vol?ranktype=1&amp;plat=0&amp;rankid=30972&amp;with_res_tag=1" target="_blank" rel="noopener">http://mobilecdngz.kugou.com/api/v3/rank/vol?ranktype=1&amp;plat=0&amp;rankid=30972&amp;with_res_tag=1</a></p>
+<p>)<a href="http://mobilecdngz.kugou.com/api/v3/rank/song?version=9068&amp;ranktype=1&amp;plat=0&amp;pagesize=100&amp;area_code=1&amp;page=1&amp;volid=34470&amp;rankid=30972&amp;with_res_tag=1" target="_blank" rel="noopener">http://mobilecdngz.kugou.com/api/v3/rank/song?version=9068&amp;ranktype=1&amp;plat=0&amp;pagesize=100&amp;area_code=1&amp;page=1&amp;volid=34470&amp;rankid=30972&amp;with_res_tag=1</a></p>
+<p><strong>梦想的声音第三季榜：</strong></p>
+<p><a href="http://mobilecdngz.kugou.com/api/v3/rank/song?version=9068&amp;ranktype=0&amp;plat=0&amp;pagesize=100&amp;area_code=1&amp;page=1&amp;rankid=34436&amp;with_res_tag=1" target="_blank" rel="noopener">http://mobilecdngz.kugou.com/api/v3/rank/song?version=9068&amp;ranktype=0&amp;plat=0&amp;pagesize=100&amp;area_code=1&amp;page=1&amp;rankid=34436&amp;with_res_tag=1</a></p>
+<p><strong>蒙面唱将猜猜猜：</strong></p>
+<p><a href="http://mobilecdngz.kugou.com/api/v3/rank/song?version=9068&amp;ranktype=0&amp;plat=0&amp;pagesize=100&amp;area_code=1&amp;page=1&amp;rankid=34363&amp;with_res_tag=1" target="_blank" rel="noopener">http://mobilecdngz.kugou.com/api/v3/rank/song?version=9068&amp;ranktype=0&amp;plat=0&amp;pagesize=100&amp;area_code=1&amp;page=1&amp;rankid=34363&amp;with_res_tag=1</a></p>
+<p><strong>中国梦之声：</strong></p>
+<p><a href="http://mobilecdngz.kugou.com/api/v3/rank/song?version=9068&amp;ranktype=0&amp;plat=0&amp;pagesize=100&amp;area_code=1&amp;page=1&amp;rankid=34362&amp;with_res_tag=1" target="_blank" rel="noopener">http://mobilecdngz.kugou.com/api/v3/rank/song?version=9068&amp;ranktype=0&amp;plat=0&amp;pagesize=100&amp;area_code=1&amp;page=1&amp;rankid=34362&amp;with_res_tag=1</a></p>
+<p><strong>5sing音乐榜：</strong></p>
+<p>[<a href="http://mobilecdngz.kugou.com/api/v3/rank/vol?ranktype=1&amp;plat=0&amp;rankid=22603&amp;with\_res\_tag=1" target="_blank" rel="noopener">http://mobilecdngz.kugou.com/api/v3/rank/vol?ranktype=1&amp;plat=0&amp;rankid=22603&amp;with\_res\_tag=1</a> ](<a href="http://mobilecdngz.kugou.com/api/v3/rank/vol?ranktype=1&amp;plat=0&amp;rankid=22603&amp;with_res_tag=1" target="_blank" rel="noopener">http://mobilecdngz.kugou.com/api/v3/rank/vol?ranktype=1&amp;plat=0&amp;rankid=22603&amp;with_res_tag=1</a></p>
+<p>)</p>
+<p>[](<a href="http://mobilecdngz.kugou.com/api/v3/rank/vol?ranktype=1&amp;plat=0&amp;rankid=22603&amp;with_res_tag=1" target="_blank" rel="noopener">http://mobilecdngz.kugou.com/api/v3/rank/vol?ranktype=1&amp;plat=0&amp;rankid=22603&amp;with_res_tag=1</a></p>
+<p>)<a href="http://mobilecdngz.kugou.com/api/v3/rank/song?version=9068&amp;ranktype=1&amp;plat=0&amp;pagesize=100&amp;area_code=1&amp;page=1&amp;volid=34526&amp;rankid=22603&amp;with_res_tag=1" target="_blank" rel="noopener">http://mobilecdngz.kugou.com/api/v3/rank/song?version=9068&amp;ranktype=1&amp;plat=0&amp;pagesize=100&amp;area_code=1&amp;page=1&amp;volid=34526&amp;rankid=22603&amp;with_res_tag=1</a></p>
+<p><strong>电音热歌榜</strong>：</p>
+<p> <a href="http://mobilecdngz.kugou.com/api/v3/rank/vol?ranktype=1&amp;plat=0&amp;rankid=33160&amp;with_res_tag=1" target="_blank" rel="noopener">http://mobilecdngz.kugou.com/api/v3/rank/vol?ranktype=1&amp;plat=0&amp;rankid=33160&amp;with_res_tag=1 </a></p>
+<p><a href="http://mobilecdngz.kugou.com/api/v3/rank/song?version=9068&amp;ranktype=1&amp;plat=0&amp;pagesize=100&amp;area_code=1&amp;page=1&amp;volid=34486&amp;rankid=33160&amp;with_res_tag=1" target="_blank" rel="noopener">http://mobilecdngz.kugou.com/api/v3/rank/song?version=9068&amp;ranktype=1&amp;plat=0&amp;pagesize=100&amp;area_code=1&amp;page=1&amp;volid=34486&amp;rankid=33160&amp;with_res_tag=1</a></p>
+<p><strong>繁星音乐榜：</strong></p>
+<p><a href="http://mobilecdngz.kugou.com/api/v3/rank/vol?ranktype=1&amp;plat=0&amp;rankid=21335&amp;with_res_tag=1" target="_blank" rel="noopener">http://mobilecdngz.kugou.com/api/v3/rank/vol?ranktype=1&amp;plat=0&amp;rankid=21335&amp;with_res_tag=1 </a></p>
+<p><a href="http://mobilecdngz.kugou.com/api/v3/rank/song?version=9068&amp;ranktype=1&amp;plat=0&amp;pagesize=100&amp;area_code=1&amp;page=1&amp;volid=34416&amp;rankid=21335&amp;with_res_tag=1" target="_blank" rel="noopener">http://mobilecdngz.kugou.com/api/v3/rank/song?version=9068&amp;ranktype=1&amp;plat=0&amp;pagesize=100&amp;area_code=1&amp;page=1&amp;volid=34416&amp;rankid=21335&amp;with_res_tag=1</a></p>
+<p><strong>古风金曲榜：</strong></p>
+<p>[<a href="http://mobilecdngz.kugou.com/api/v3/rank/vol?ranktype=1&amp;plat=0&amp;rankid=33161&amp;with\_res\_tag=1" target="_blank" rel="noopener">http://mobilecdngz.kugou.com/api/v3/rank/vol?ranktype=1&amp;plat=0&amp;rankid=33161&amp;with\_res\_tag=1</a> ](<a href="http://mobilecdngz.kugou.com/api/v3/rank/vol?ranktype=1&amp;plat=0&amp;rankid=33161&amp;with_res_tag=1" target="_blank" rel="noopener">http://mobilecdngz.kugou.com/api/v3/rank/vol?ranktype=1&amp;plat=0&amp;rankid=33161&amp;with_res_tag=1</a></p>
+<p>)</p>
+<p>[](<a href="http://mobilecdngz.kugou.com/api/v3/rank/vol?ranktype=1&amp;plat=0&amp;rankid=33161&amp;with_res_tag=1" target="_blank" rel="noopener">http://mobilecdngz.kugou.com/api/v3/rank/vol?ranktype=1&amp;plat=0&amp;rankid=33161&amp;with_res_tag=1</a></p>
+<p>)<a href="http://mobilecdngz.kugou.com/api/v3/rank/song?version=9068&amp;ranktype=1&amp;plat=0&amp;pagesize=100&amp;area_code=1&amp;page=1&amp;volid=34475&amp;rankid=33161&amp;with_res_tag=1" target="_blank" rel="noopener">http://mobilecdngz.kugou.com/api/v3/rank/song?version=9068&amp;ranktype=1&amp;plat=0&amp;pagesize=100&amp;area_code=1&amp;page=1&amp;volid=34475&amp;rankid=33161&amp;with_res_tag=1</a></p>
+<p><strong>影视金曲榜：</strong></p>
+<p><a href="http://mobilecdngz.kugou.com/api/v3/rank/vol?ranktype=1&amp;plat=0&amp;rankid=33163&amp;with_res_tag=1" target="_blank" rel="noopener">http://mobilecdngz.kugou.com/api/v3/rank/vol?ranktype=1&amp;plat=0&amp;rankid=33163&amp;with_res_tag=1 </a></p>
+<p><a href="http://mobilecdngz.kugou.com/api/v3/rank/song?version=9068&amp;ranktype=1&amp;plat=0&amp;pagesize=100&amp;area_code=1&amp;page=1&amp;volid=34478&amp;rankid=33163&amp;with_res_tag=1" target="_blank" rel="noopener">http://mobilecdngz.kugou.com/api/v3/rank/song?version=9068&amp;ranktype=1&amp;plat=0&amp;pagesize=100&amp;area_code=1&amp;page=1&amp;volid=34478&amp;rankid=33163&amp;with_res_tag=1</a></p>
+<p><strong>ACG热歌榜：</strong></p>
+<p>[<a href="http://mobilecdngz.kugou.com/api/v3/rank/vol?ranktype=1&amp;plat=0&amp;rankid=33162&amp;with\_res\_tag=1" target="_blank" rel="noopener">http://mobilecdngz.kugou.com/api/v3/rank/vol?ranktype=1&amp;plat=0&amp;rankid=33162&amp;with\_res\_tag=1</a> ](<a href="http://mobilecdngz.kugou.com/api/v3/rank/vol?ranktype=1&amp;plat=0&amp;rankid=33162&amp;with_res_tag=1" target="_blank" rel="noopener">http://mobilecdngz.kugou.com/api/v3/rank/vol?ranktype=1&amp;plat=0&amp;rankid=33162&amp;with_res_tag=1</a></p>
+<p>)</p>
+<p>[](<a href="http://mobilecdngz.kugou.com/api/v3/rank/vol?ranktype=1&amp;plat=0&amp;rankid=33162&amp;with_res_tag=1" target="_blank" rel="noopener">http://mobilecdngz.kugou.com/api/v3/rank/vol?ranktype=1&amp;plat=0&amp;rankid=33162&amp;with_res_tag=1</a></p>
+<p>)<a href="http://mobilecdngz.kugou.com/api/v3/rank/song?version=9068&amp;ranktype=1&amp;plat=0&amp;pagesize=100&amp;area_code=1&amp;page=1&amp;volid=34482&amp;rankid=33162&amp;with_res_tag=1" target="_blank" rel="noopener">http://mobilecdngz.kugou.com/api/v3/rank/song?version=9068&amp;ranktype=1&amp;plat=0&amp;pagesize=100&amp;area_code=1&amp;page=1&amp;volid=34482&amp;rankid=33162&amp;with_res_tag=1</a></p>
+<p><strong>粤语金曲榜：</strong></p>
+<p>[<a href="http://mobilecdngz.kugou.com/api/v3/rank/vol?ranktype=1&amp;plat=0&amp;rankid=33165&amp;with\_res\_tag=1" target="_blank" rel="noopener">http://mobilecdngz.kugou.com/api/v3/rank/vol?ranktype=1&amp;plat=0&amp;rankid=33165&amp;with\_res\_tag=1</a> ](<a href="http://mobilecdngz.kugou.com/api/v3/rank/vol?ranktype=1&amp;plat=0&amp;rankid=33165&amp;with_res_tag=1" target="_blank" rel="noopener">http://mobilecdngz.kugou.com/api/v3/rank/vol?ranktype=1&amp;plat=0&amp;rankid=33165&amp;with_res_tag=1</a></p>
+<p>)</p>
+<p><a href="http://mobilecdngz.kugou.com/api/v3/rank/song?version=9068&amp;ranktype=1&amp;plat=0&amp;pagesize=100&amp;area_code=1&amp;page=1&amp;volid=34481&amp;rankid=33165&amp;with_res_tag=1" target="_blank" rel="noopener">http://mobilecdngz.kugou.com/api/v3/rank/song?version=9068&amp;ranktype=1&amp;plat=0&amp;pagesize=100&amp;area_code=1&amp;page=1&amp;volid=34481&amp;rankid=33165&amp;with_res_tag=1</a></p>
+<p><strong>欧美金曲榜：</strong></p>
+<p><a href="http://mobilecdngz.kugou.com/api/v3/rank/vol?ranktype=1&amp;plat=0&amp;rankid=33166&amp;with_res_tag=1" target="_blank" rel="noopener">http://mobilecdngz.kugou.com/api/v3/rank/vol?ranktype=1&amp;plat=0&amp;rankid=33166&amp;with_res_tag=1 </a></p>
+<p><a href="http://mobilecdngz.kugou.com/api/v3/rank/song?version=9068&amp;ranktype=1&amp;plat=0&amp;pagesize=100&amp;area_code=1&amp;page=1&amp;volid=34477&amp;rankid=33166&amp;with_res_tag=1" target="_blank" rel="noopener">http://mobilecdngz.kugou.com/api/v3/rank/song?version=9068&amp;ranktype=1&amp;plat=0&amp;pagesize=100&amp;area_code=1&amp;page=1&amp;volid=34477&amp;rankid=33166&amp;with_res_tag=1</a></p>
+<p><strong>美国BillBoard榜</strong>： </p>
+<p> <a href="http://mobilecdngz.kugou.com/api/v3/rank/vol?ranktype=1&amp;plat=0&amp;rankid=4681&amp;with_res_tag=1" target="_blank" rel="noopener">http://mobilecdngz.kugou.com/api/v3/rank/vol?ranktype=1&amp;plat=0&amp;rankid=4681&amp;with_res_tag=1 </a></p>
+<p><a href="http://mobilecdngz.kugou.com/api/v3/rank/song?version=9068&amp;ranktype=1&amp;plat=0&amp;pagesize=100&amp;area_code=1&amp;page=1&amp;volid=34498&amp;rankid=4681&amp;with_res_tag=1" target="_blank" rel="noopener">http://mobilecdngz.kugou.com/api/v3/rank/song?version=9068&amp;ranktype=1&amp;plat=0&amp;pagesize=100&amp;area_code=1&amp;page=1&amp;volid=34498&amp;rankid=4681&amp;with_res_tag=1</a></p>
+<p><strong>英国单曲榜：</strong></p>
+<p><a href="http://mobilecdngz.kugou.com/api/v3/rank/vol?ranktype=1&amp;plat=0&amp;rankid=4680&amp;with_res_tag=1" target="_blank" rel="noopener">http://mobilecdngz.kugou.com/api/v3/rank/vol?ranktype=1&amp;plat=0&amp;rankid=4680&amp;with_res_tag=1 </a></p>
+<p><a href="http://mobilecdngz.kugou.com/api/v3/rank/song?version=9068&amp;ranktype=1&amp;plat=0&amp;pagesize=100&amp;area_code=1&amp;page=1&amp;volid=34525&amp;rankid=4680&amp;with_res_tag=1" target="_blank" rel="noopener">http://mobilecdngz.kugou.com/api/v3/rank/song?version=9068&amp;ranktype=1&amp;plat=0&amp;pagesize=100&amp;area_code=1&amp;page=1&amp;volid=34525&amp;rankid=4680&amp;with_res_tag=1</a></p>
+<p><strong>日本公信榜：</strong></p>
+<p><a href="http://mobilecdngz.kugou.com/api/v3/rank/vol?ranktype=1&amp;plat=0&amp;rankid=4673&amp;with_res_tag=1" target="_blank" rel="noopener">http://mobilecdngz.kugou.com/api/v3/rank/vol?ranktype=1&amp;plat=0&amp;rankid=4673&amp;with_res_tag=1 </a></p>
+<p><a href="http://mobilecdngz.kugou.com/api/v3/rank/song?version=9068&amp;ranktype=1&amp;plat=0&amp;pagesize=100&amp;area_code=1&amp;page=1&amp;volid=34488&amp;rankid=4673&amp;with_res_tag=1" target="_blank" rel="noopener">http://mobilecdngz.kugou.com/api/v3/rank/song?version=9068&amp;ranktype=1&amp;plat=0&amp;pagesize=100&amp;area_code=1&amp;page=1&amp;volid=34488&amp;rankid=4673&amp;with_res_tag=1</a></p>
+<p><strong>韩国M-net音乐榜：</strong></p>
+<p>[<a href="http://mobilecdngz.kugou.com/api/v3/rank/vol?ranktype=1&amp;plat=0&amp;rankid=4672&amp;with\_res\_tag=1" target="_blank" rel="noopener">http://mobilecdngz.kugou.com/api/v3/rank/vol?ranktype=1&amp;plat=0&amp;rankid=4672&amp;with\_res\_tag=1</a> ](<a href="http://mobilecdngz.kugou.com/api/v3/rank/vol?ranktype=1&amp;plat=0&amp;rankid=4672&amp;with_res_tag=1" target="_blank" rel="noopener">http://mobilecdngz.kugou.com/api/v3/rank/vol?ranktype=1&amp;plat=0&amp;rankid=4672&amp;with_res_tag=1</a></p>
+<p>)</p>
+<p>[](<a href="http://mobilecdngz.kugou.com/api/v3/rank/vol?ranktype=1&amp;plat=0&amp;rankid=4672&amp;with_res_tag=1" target="_blank" rel="noopener">http://mobilecdngz.kugou.com/api/v3/rank/vol?ranktype=1&amp;plat=0&amp;rankid=4672&amp;with_res_tag=1</a></p>
+<p>)<a href="http://mobilecdngz.kugou.com/api/v3/rank/song?version=9068&amp;ranktype=1&amp;plat=0&amp;pagesize=100&amp;area_code=1&amp;page=1&amp;volid=34529&amp;rankid=4672&amp;with_res_tag=1" target="_blank" rel="noopener">http://mobilecdngz.kugou.com/api/v3/rank/song?version=9068&amp;ranktype=1&amp;plat=0&amp;pagesize=100&amp;area_code=1&amp;page=1&amp;volid=34529&amp;rankid=4672&amp;with_res_tag=1</a></p>
+<p><strong>中国TOP排行榜：</strong></p>
+<p>[<a href="http://mobilecdngz.kugou.com/api/v3/rank/vol?ranktype=1&amp;plat=0&amp;rankid=22163&amp;with\_res\_tag=1" target="_blank" rel="noopener">http://mobilecdngz.kugou.com/api/v3/rank/vol?ranktype=1&amp;plat=0&amp;rankid=22163&amp;with\_res\_tag=1</a> ](<a href="http://mobilecdngz.kugou.com/api/v3/rank/vol?ranktype=1&amp;plat=0&amp;rankid=22163&amp;with_res_tag=1" target="_blank" rel="noopener">http://mobilecdngz.kugou.com/api/v3/rank/vol?ranktype=1&amp;plat=0&amp;rankid=22163&amp;with_res_tag=1</a></p>
+<p>)</p>
+<p>[](<a href="http://mobilecdngz.kugou.com/api/v3/rank/vol?ranktype=1&amp;plat=0&amp;rankid=22163&amp;with_res_tag=1" target="_blank" rel="noopener">http://mobilecdngz.kugou.com/api/v3/rank/vol?ranktype=1&amp;plat=0&amp;rankid=22163&amp;with_res_tag=1</a></p>
+<p>)<a href="http://mobilecdngz.kugou.com/api/v3/rank/song?version=9068&amp;ranktype=1&amp;plat=0&amp;pagesize=100&amp;area_code=1&amp;page=1&amp;volid=34528&amp;rankid=22163&amp;with_res_tag=1" target="_blank" rel="noopener">http://mobilecdngz.kugou.com/api/v3/rank/song?version=9068&amp;ranktype=1&amp;plat=0&amp;pagesize=100&amp;area_code=1&amp;page=1&amp;volid=34528&amp;rankid=22163&amp;with_res_tag=1</a></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>之前一直以为酷狗移动端app和移动端h5页面用的是一套接口，即m.kugou.com开头的，结果发现并不是，app用的是mobilecdngz.kugou.com开头的地址。 而且app里面的歌曲更多一些，也更全一些。 写完都很晚了，明天还要上班那，最近还n个需求缠身，npm模块的事只能往后拖拖了。 还有网易云音乐、QQ音乐、虾米音乐这些。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/11/02/vue-cli本地开发解决跨域问题/" rel="next" title="vue-cli本地开发解决跨域问题">
+                <i class="fa fa-chevron-left"></i> vue-cli本地开发解决跨域问题
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/11/14/虾米音乐接口整理/" rel="prev" title="虾米音乐接口整理">
+                虾米音乐接口整理 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="http://php8pu0yd.bkt.clouddn.com/logo.png" alt="Stephen">
+            
+              <p class="site-author-name" itemprop="name">Stephen</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">37</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">25</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/enci33" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://duozhang.xin" target="_blank" title="Site">
+                      
+                        <i class="fa fa-fw fa-home"></i>Site</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#设置fiddler"><span class="nav-number">1.</span> <span class="nav-text">设置fiddler</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#设置手机"><span class="nav-number">2.</span> <span class="nav-text">设置手机</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#接口分析"><span class="nav-number">3.</span> <span class="nav-text">接口分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Stephen</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+  
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
